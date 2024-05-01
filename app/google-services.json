@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "190486412398",
+    "firebase_url": "https://projetmobile-e829e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "projetmobile-e829e",
+    "storage_bucket": "projetmobile-e829e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190486412398:android:a7844b5cc64b5b3df6ba7f",
+        "android_client_info": {
+          "package_name": "com.example.tv_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNpxLYztiqSB-vEagx_hB_CugKGExILaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190486412398:android:979ed325c5c477c1f6ba7f",
+        "android_client_info": {
+          "package_name": "projet.isi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNpxLYztiqSB-vEagx_hB_CugKGExILaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
