@@ -36,6 +36,7 @@ import com.google.firebase.storage.storage
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
+    private var imageUrls by mutableStateOf<List<String>>(emptyList())
 
     @OptIn(ExperimentalTvMaterial3Api::class, ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TV_AppTheme {
                 val pagerState = rememberPagerState()
-                val imageUrls = imageSwiper()
+                imageUrls = imageSwiper()
                 LaunchedEffect(Unit) {
                     while (true) {
                         delay(7000)
@@ -80,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         val value = snapshot.getValue<Long>()?.toInt()
                         if (imageUrls.size != value && imageUrls.isNotEmpty()) {
                             Log.w(TAG, "Nombre d'events a changé : " + value)
-                            restartActivity()
+                            updateImageList()
                         }
                     }
                     override fun onCancelled(error: DatabaseError) {
@@ -91,12 +92,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun restartActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-        finish()
-        Runtime.getRuntime().exit(0)
+    private fun updateImageList() {
+        val storageRef = Firebase.storage.reference.child("Events")
+        val imageList = mutableListOf<String>()
+
+        storageRef.listAll().addOnSuccessListener { result ->
+            result.items.forEach { item ->
+                item.downloadUrl.addOnSuccessListener { uri ->
+                    imageList.add(uri.toString())
+                    if (imageList.size == result.items.size) {
+                        imageUrls = imageList.toList()
+                    }
+                }.addOnFailureListener { exception ->
+                    Log.e("Download", "Failed to retrieve download URL: $exception")
+                }
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("Download", "Failed to list files: $exception")
+        }
     }
 
 }
